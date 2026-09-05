@@ -677,6 +677,66 @@ body {
 }
 
 
+
+/* =========================================================
+   CHAPTER 2 POPUP
+   ========================================================= */
+
+#chapter2Popup {
+    position: absolute;
+    inset: 0;
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 24, 15, .68);
+}
+
+.chapter2Box {
+    width: 46%;
+    max-width: 780px;
+    padding: 34px 38px;
+    text-align: center;
+    background: linear-gradient(#fff7df, #ffd982);
+    border: 5px solid #6c3018;
+    border-radius: 30px;
+    box-shadow: 0 14px 40px rgba(0,0,0,.5);
+    animation: popupIn .35s ease-out;
+}
+
+.chapter2Emoji {
+    font-size: clamp(48px, 4.5vw, 78px);
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.chapter2Box h1 {
+    margin: 5px 0 12px;
+    color: #682d16;
+    font-size: clamp(27px, 2.7vw, 48px);
+    line-height: 1.25;
+    font-weight: 900;
+}
+
+.chapter2Box p {
+    margin: 0;
+    color: #71351d;
+    font-size: clamp(16px, 1.35vw, 25px);
+    line-height: 1.65;
+    font-weight: 700;
+}
+
+@keyframes popupIn {
+    from {
+        opacity: 0;
+        transform: scale(.9) translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 /* =========================================================
    SUCCESS
 ========================================================= */
@@ -743,34 +803,6 @@ body {
 
     font-weight: 700;
 }
-
-.restartButton {
-    margin-top: 10px;
-
-    padding: 10px 32px;
-
-    border: 4px solid #633019;
-
-    border-radius: 18px;
-
-    background: linear-gradient(
-        #82c85b,
-        #4b9237
-    );
-
-    color: white;
-
-    font-size:
-        clamp(17px, 1.3vw, 25px);
-
-    font-weight: 900;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 4px 0 #4a2918;
-}
-
 
 /* =========================================================
    CONFETTI
@@ -1002,6 +1034,18 @@ body {
 </div>
 
 
+
+<!-- =====================================================
+     CHAPTER 2 POPUP
+===================================================== -->
+<div id="chapter2Popup" role="dialog" aria-modal="true" aria-labelledby="chapter2Title">
+    <div class="chapter2Box">
+        <div class="chapter2Emoji">🌲✨📖</div>
+        <h1 id="chapter2Title">ทีมงานกำลังสร้างเนื้อเรื่อง Chapter 2</h1>
+        <p>โปรดอดใจรอ<br>การผจญภัยของฮันเซลและเกรเทลจะดำเนินต่อในเร็ว ๆ นี้ ✨</p>
+    </div>
+</div>
+
 <!-- =====================================================
      SUCCESS
 ===================================================== -->
@@ -1024,16 +1068,7 @@ body {
             ก้อนหินเรืองแสงทั้ง 10 ก้อน
             ช่วยนำทางกลับบ้านได้สำเร็จ
         </p>
-
-        <button
-            class="restartButton"
-            onclick="restartGame()">
-
-            🔄 เล่นอีกครั้ง
-
-        </button>
-
-    </div>
+</div>
 
 </div>
 
@@ -1234,6 +1269,11 @@ const success =
         "success"
     );
 
+const chapter2Popup =
+    document.getElementById(
+        "chapter2Popup"
+    );
+
 
 /* =========================================================
    START GAME
@@ -1266,6 +1306,9 @@ function resetGame() {
     collectedStones = 0;
 
     success.style.display =
+        "none";
+
+    chapter2Popup.style.display =
         "none";
 
 
@@ -1951,9 +1994,8 @@ function choosePath(
 
 function showSuccess() {
 
-    success.style.display =
+    chapter2Popup.style.display =
         "flex";
-
 
     createConfetti();
 
@@ -2027,19 +2069,6 @@ function createConfetti() {
         );
 
     }
-
-}
-
-
-/* =========================================================
-   RESTART
-========================================================= */
-
-function restartGame() {
-
-    resetGame();
-
-    showQuestion(0);
 
 }
 
