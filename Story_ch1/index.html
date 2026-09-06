@@ -45,14 +45,19 @@
         ===================================================== */
 
         #game {
-            position: relative;
+            position: absolute;
 
-            width: 100vw;
-            height: 100vh;
+            width: 1920px;
+            height: 1080px;
+
+            left: 50%;
+            top: 50%;
 
             overflow: hidden;
 
             background: #1c120d;
+
+            transform-origin: center center;
         }
 
 
@@ -69,7 +74,8 @@
             width: 100%;
             height: 100%;
 
-            object-fit: cover;
+            /* ใช้ภาพเต็มพื้นที่ 1920x1080 โดยไม่ crop */
+            object-fit: fill;
 
             z-index: 1;
 
@@ -116,7 +122,7 @@
             position: absolute;
 
             left: 50%;
-            bottom: 3.2%;
+            bottom: 8%;
 
             transform:
                 translateX(-50%);
@@ -940,153 +946,11 @@
 
 
         /* =====================================================
-           MOBILE
+           RESPONSIVE SCALE
+
+           ไม่ปรับขนาดองค์ประกอบทีละชิ้นอีกต่อไป
+           เพราะทั้งเกมจะถูกย่อ/ขยายพร้อมกันจาก 1920x1080
         ===================================================== */
-
-        @media (max-width: 700px) {
-
-            .storyPanel {
-                width:
-                    94%;
-
-                height:
-                    28%;
-
-                min-height:
-                    190px;
-
-                max-height:
-                    230px;
-
-                bottom:
-                    4%;
-
-                padding:
-                    8px 10px 15px;
-
-                border-radius:
-                    20px;
-            }
-
-
-            .chapterTitle {
-                min-height:
-                    31px;
-
-                padding:
-                    6px 17px;
-
-                margin-bottom:
-                    5px;
-
-                border-radius:
-                    19px;
-
-                font-size:
-                    12px;
-            }
-
-
-            .storyText {
-                min-height:
-                    43px;
-
-                max-height:
-                    57px;
-
-                padding:
-                    0 5px;
-
-                font-size:
-                    12px;
-
-                line-height:
-                    1.3;
-            }
-
-
-            .readArea,
-            .nextArea {
-                padding-top:
-                    4px;
-            }
-
-
-            .readBtn,
-            .nextBtn {
-                min-width:
-                    105px;
-
-                height:
-                    33px;
-
-                padding:
-                    6px 14px;
-
-                font-size:
-                    11px;
-
-                border-radius:
-                    19px;
-            }
-
-
-            .emotionHint {
-                font-size:
-                    10px;
-
-                margin-bottom:
-                    5px;
-            }
-
-
-            .choices {
-                gap:
-                    5px;
-
-                margin-bottom:
-                    4px;
-            }
-
-
-            /*
-             * มือถือ:
-             * จากเดิม 43px
-             * ลดเหลือ 36px
-             */
-            .choiceBtn {
-                height:
-                    36px;
-
-                padding:
-                    4px 4px;
-
-                font-size:
-                    9px;
-
-                border-radius:
-                    11px;
-            }
-
-
-            .responseBox {
-                min-height:
-                    45px;
-
-                max-height:
-                    62px;
-
-                padding:
-                    0 5px;
-
-                font-size:
-                    12px;
-
-                line-height:
-                    1.3;
-            }
-
-        }
 
     </style>
 
@@ -2123,8 +1987,34 @@ function nextStep() {
 function startMinigame() {
 
     window.location.href = "../Minigame1/index.html";
+}
+
+
+/* =========================================================
+   RESPONSIVE SCALE
+
+   กำหนด Design Resolution เป็น 1920x1080
+   แล้ว scale ทั้ง Story พร้อมกันให้พอดีกับหน้าจอ
+   โดยไม่ใช้ cover จึงไม่ crop ฉาก
+========================================================= */
+
+function resizeGame() {
+
+    const game = document.getElementById("game");
+
+    const scaleX = window.innerWidth / 1920;
+    const scaleY = window.innerHeight / 1080;
+
+    const scale = Math.min(scaleX, scaleY);
+
+    game.style.transform =
+        `translate(-50%, -50%) scale(${scale})`;
 
 }
+
+window.addEventListener("resize", resizeGame);
+
+resizeGame();
 
 
 /* =========================================================
