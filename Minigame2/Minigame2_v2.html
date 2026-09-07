@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Minigame 2 - จับผิดบ้านขนมหวาน</title>
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #432314;
+        }
+
+        body {
+            font-family:
+                "Trebuchet MS",
+                "Arial Rounded MT Bold",
+                Arial,
+                sans-serif;
+        }
+
+
+        /* =====================================================
+           GAME
+        ===================================================== */
+
+        #game {
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 100vw;
+            height: 100vh;
+
+            overflow: hidden;
+
+            background: #432314;
+        }
+
+
+        /* =====================================================
+           STAGE
+
+           Design Resolution = 1920 x 1080
+
+           ทั้งฉากจะถูก Scale ให้พอดีกับหน้าจอ
+           โดยไม่ Crop ภาพ
+        ===================================================== */
+
+        #stage {
+            position: absolute;
+
+            width: 1920px;
+            height: 1080px;
+
+            left: 50%;
+            top: 50%;
+
+            transform-origin: center center;
+
+            background-image: url("BG_mini2.png");
+
+            background-size: 1920px 1080px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+        /* =====================================================
+           TIMER
+
+           อ้างอิงตำแหน่งและขนาดจาก V1
+        ===================================================== */
+
+        #timer {
+            position: absolute;
+
+            left: 330px;
+            top: 827px;
+
+            width: 790px;
+            height: 92px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #663015;
+
+            font-size: 32px;
+            font-weight: bold;
+
+            text-align: center;
+
+            text-shadow:
+                1px 2px 0 rgba(255, 255, 255, 0.55);
+
+            z-index: 30;
+
+            pointer-events: none;
+        }
+
+
+        #timerLabel {
+            margin-right: 18px;
+
+            position: relative;
+
+            z-index: 50;
+        }
+
+
+        #timerNumber {
+            min-width: 45px;
+
+            position: relative;
+
+            z-index: 50;
+
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           TIMER BAR
+
+           ขนาดเดียวกับ V1
+        ===================================================== */
+
+        #timerBar {
+            position: absolute;
+
+            left: 109px;
+            top: 25px;
+
+            width: 652px;
+            height: 50px;
+
+            background: transparent;
+
+            border-radius: 999px;
+
+            overflow: hidden;
+
+            z-index: 10;
+        }
+
+
+        #timerBarFill {
+            width: 100%;
+            height: 100%;
+
+            background:
+                rgba(255, 248, 220, 0.32);
+
+            border:
+                3px solid rgba(255, 255, 255, 0.18);
+
+            border-radius: 999px;
+
+            transition:
+                width 1s linear;
+        }
+
+
+        /* =====================================================
+           SCORE AREA
+
+           ตำแหน่งและขนาดอ้างอิง V1
+        ===================================================== */
+
+        #scoreArea {
+            position: absolute;
+
+            left: 1065px;
+            top: 135px;
+
+            width: 470px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            gap: 0px;
+
+            z-index: 20;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           SCORE TEXT
+        ===================================================== */
+
+        #candyCount {
+            position: absolute;
+
+            left: 0;
+            top: -60px;
+
+            width: 470px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #663015;
+
+            font-size: 30px;
+            font-weight: bold;
+
+            text-align: center;
+
+            text-shadow:
+                1px 2px 0 rgba(255, 255, 255, 0.55);
+
+            z-index: 50;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           COLLECTED CANDIES
+        ===================================================== */
+
+        #collectedCandies {
+            width: 470px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            gap: 0px;
+
+            overflow: visible;
+        }
+
+
+        /* =====================================================
+           CANDY SLOT
+
+           ขนาดเดียวกับ V1
+        ===================================================== */
+
+        .candy-slot {
+            position: relative;
+
+            width: 30px;
+            height: 42px;
+
+            flex: 0 0 52.5px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            opacity: 0;
+
+            transform: scale(0.85);
+
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .candy-slot.show {
+            opacity: 1;
+
+            transform: scale(0.9);
+        }
+
+
+        /* =====================================================
+           CANDY GRAPHIC
+
+           ขนาดเดียวกับ V1
+        ===================================================== */
+
+        .candy {
+            position: relative;
+
+            width: 52px;
+            height: 34px;
+
+            filter:
+                drop-shadow(
+                    0px 3px 2px rgba(80, 30, 10, 0.35)
+                );
+        }
+
+
+        /* ตัวลูกกวาด */
+
+        .candy-body {
+            position: absolute;
+
+            left: 14px;
+            top: 4px;
+
+            width: 26px;
+            height: 26px;
+
+            border-radius: 50%;
+
+            background:
+                repeating-linear-gradient(
+                    135deg,
+
+                    #f15b67 0px,
+                    #f15b67 7px,
+
+                    #fff2e8 7px,
+                    #fff2e8 13px
+                );
+
+            border:
+                3px solid #9b3d2c;
+
+            transform: rotate(-8deg);
+        }
+
+
+        /* กระดาษห่อซ้าย */
+
+        .candy-left {
+            position: absolute;
+
+            left: 0;
+            top: 7px;
+
+            width: 18px;
+            height: 20px;
+
+            background: #f05a68;
+
+            clip-path:
+                polygon(
+                    100% 50%,
+                    15% 0%,
+                    0% 50%,
+                    15% 100%
+                );
+        }
+
+
+        /* กระดาษห่อขวา */
+
+        .candy-right {
+            position: absolute;
+
+            right: 0;
+            top: 7px;
+
+            width: 18px;
+            height: 20px;
+
+            background: #f05a68;
+
+            clip-path:
+                polygon(
+                    0% 50%,
+                    85% 0%,
+                    100% 50%,
+                    85% 100%
+                );
+        }
+
+
+        /* =====================================================
+           CANDY FIELD
+
+           อยู่รอบ ๆ กึ่งกลางหน้าจอ
+
+           Stage 1920 x 1080
+           Field:
+               left = 600
+               top = 370
+               width = 720
+               height = 320
+
+           จุดกึ่งกลางสนาม =
+               X 960
+               Y 530
+        ===================================================== */
+
+        #candyField {
+            position: absolute;
+
+            left: 600px;
+            top: 370px;
+
+            width: 720px;
+            height: 320px;
+
+            z-index: 25;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           CLICKABLE CANDY
+        ===================================================== */
+
+        .click-candy {
+            position: absolute;
+
+            width: 58px;
+            height: 46px;
+
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            pointer-events: auto;
+
+            transform: scale(1);
+
+            animation:
+                candyBounce 0.8s ease-in-out infinite alternate;
+
+            filter:
+                drop-shadow(
+                    0px 5px 3px rgba(80, 30, 10, 0.35)
+                );
+        }
+
+
+        .click-candy:hover {
+            transform: scale(1.05);
+        }
+
+
+        @keyframes candyBounce {
+
+            from {
+                margin-top: -7px;
+            }
+
+            to {
+                margin-top: 7px;
+            }
+        }
+
+
+        /* =====================================================
+           GAME OVER POP-UP
+
+           ขนาดเดียวกับ V1
+        ===================================================== */
+
+        #gameOver {
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            width: 590px;
+
+            padding:
+                42px 45px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    #fff4d5,
+                    #f5d49a
+                );
+
+            border:
+                8px solid #713719;
+
+            border-radius: 35px;
+
+            box-shadow:
+                0 10px 0 #4e210f,
+                0 15px 30px rgba(0, 0, 0, 0.35);
+
+            text-align: center;
+
+            z-index: 100;
+
+            display: none;
+        }
+
+
+        .game-over-visible {
+            display: block !important;
+        }
+
+
+        /* =====================================================
+           GAME OVER TITLE
+        ===================================================== */
+
+        #gameOverTitle {
+            color: #bd4535;
+
+            font-size: 48px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+            text-shadow:
+                2px 3px 0 #ffffff;
+        }
+
+
+        /* =====================================================
+           GAME OVER TEXT
+        ===================================================== */
+
+        #gameOverText {
+            color: #713719;
+
+            font-size: 25px;
+
+            line-height: 1.6;
+
+            font-weight: bold;
+
+            margin-bottom: 25px;
+        }
+
+
+        #finalScore {
+            color: #b64332;
+
+            font-size: 30px;
+
+            margin:
+                0 5px;
+        }
+
+
+        /* =====================================================
+           RESTART BUTTON
+        ===================================================== */
+
+        #restartButton {
+            border: none;
+
+            padding:
+                13px 42px;
+
+            min-width: 250px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ffd36c,
+                    #e99b35
+                );
+
+            border:
+                5px solid #713719;
+
+            color: #663015;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 0 #54250f;
+
+            transition:
+                transform 0.12s ease,
+                box-shadow 0.12s ease;
+        }
+
+
+        #restartButton:hover {
+            transform:
+                translateY(-2px);
+        }
+
+
+        #restartButton:active {
+            transform:
+                translateY(4px);
+
+            box-shadow:
+                0 1px 0 #54250f;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div id="game">
+
+    <div id="stage">
+
+
+        <!-- =================================================
+             TIMER
+        ================================================= -->
+
+        <div id="timer">
+
+            <span id="timerLabel">
+                Timing
+            </span>
+
+            <span id="timerNumber">
+                30
+            </span>
+
+            <div id="timerBar">
+
+                <div id="timerBarFill"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SCORE
+        ================================================= -->
+
+        <div id="scoreArea">
+
+            <div id="candyCount">
+
+                ลูกกวาดสะสม:
+                <span id="candyCountNumber">
+                    0
+                </span>/10
+
+            </div>
+
+
+            <div id="collectedCandies">
+
+
+                <!-- Candy 1 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy1"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 2 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy2"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 3 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy3"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 4 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy4"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 5 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy5"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 6 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy6"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 7 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy7"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 8 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy8"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 9 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy9"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 10 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy10"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RANDOM CANDY FIELD
+
+             ลูกกวาดที่ให้กดจะถูกสร้างด้วย JavaScript
+        ================================================= -->
+
+        <div id="candyField"></div>
+
+
+        <!-- =================================================
+             GAME OVER
+        ================================================= -->
+
+        <div id="gameOver">
+
+            <div id="gameOverTitle">
+                หมดเวลาแล้ว!
+            </div>
+
+
+            <div id="gameOverText">
+
+                เวลาจบแล้วจ้า
+                <br>
+
+                ลูกกวาดที่สะสมได้
+
+                <span id="finalScore">
+                    0
+                </span>
+
+                ชิ้น
+
+            </div>
+
+
+            <button id="restartButton">
+                เริ่มเกมใหม่
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       GAME SETTINGS
+    ===================================================== */
+
+    const GAME_WIDTH = 1920;
+
+    const GAME_HEIGHT = 1080;
+
+    const GAME_TIME = 30;
+
+    const TOTAL_CANDIES = 10;
+
+
+    /* =====================================================
+       GAME VARIABLES
+    ===================================================== */
+
+    let timeLeft = GAME_TIME;
+
+    let candyScore = 0;
+
+    let timerInterval = null;
+
+    let gameRunning = false;
+
+
+    /* =====================================================
+       DOM
+    ===================================================== */
+
+    const stage =
+        document.getElementById("stage");
+
+
+    const timerNumber =
+        document.getElementById("timerNumber");
+
+
+    const timerBarFill =
+        document.getElementById("timerBarFill");
+
+
+    const candyCountNumber =
+        document.getElementById("candyCountNumber");
+
+
+    const candyField =
+        document.getElementById("candyField");
+
+
+    const gameOver =
+        document.getElementById("gameOver");
+
+
+    const finalScore =
+        document.getElementById("finalScore");
+
+
+    const restartButton =
+        document.getElementById("restartButton");
+
+
+    const collectedCandySlots = [];
+
+
+    for (
+        let i = 1;
+        i <= TOTAL_CANDIES;
+        i++
+    ) {
+
+        collectedCandySlots.push(
+            document.getElementById(
+                "candy" + i
+            )
+        );
+
+    }
+
+
+    /* =====================================================
+       SCALE GAME
+
+       Design Resolution 1920 x 1080
+    ===================================================== */
+
+    function resizeGame() {
+
+        const screenWidth =
+            window.innerWidth;
+
+
+        const screenHeight =
+            window.innerHeight;
+
+
+        const scaleX =
+            screenWidth / GAME_WIDTH;
+
+
+        const scaleY =
+            screenHeight / GAME_HEIGHT;
+
+
+        const scale =
+            Math.min(
+                scaleX,
+                scaleY
+            );
+
+
+        stage.style.transform =
+            `
+            translate(-50%, -50%)
+            scale(${scale})
+            `;
+    }
+
+
+    /* =====================================================
+       UPDATE TIMER
+    ===================================================== */
+
+    function updateTimer() {
+
+        timerNumber.textContent =
+            timeLeft;
+
+
+        const percent =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    (
+                        timeLeft /
+                        GAME_TIME
+                    ) * 100
+                )
+            );
+
+
+        timerBarFill.style.width =
+            percent + "%";
+    }
+
+
+    /* =====================================================
+       UPDATE SCORE
+    ===================================================== */
+
+    function updateCandy() {
+
+        candyCountNumber.textContent =
+            candyScore;
+
+
+        collectedCandySlots.forEach(
+            (slot, index) => {
+
+                if (index < candyScore) {
+
+                    slot.classList.add(
+                        "show"
+                    );
+
+                } else {
+
+                    slot.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+    }
+
+
+    /* =====================================================
+       CREATE CLICKABLE CANDY
+    ===================================================== */
+
+    function createCandy(x, y) {
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+
+        button.className =
+            "click-candy";
+
+
+        button.style.left =
+            x + "px";
+
+
+        button.style.top =
+            y + "px";
+
+
+        button.setAttribute(
+            "aria-label",
+            "เก็บลูกกวาด"
+        );
+
+
+        button.innerHTML =
+            `
+            <div class="candy">
+
+                <div class="candy-left"></div>
+
+                <div class="candy-body"></div>
+
+                <div class="candy-right"></div>
+
+            </div>
+            `;
+
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    !gameRunning ||
+                    button.disabled
+                ) {
+
+                    return;
+                }
+
+
+                button.disabled = true;
+
+
+                candyScore++;
+
+
+                updateCandy();
+
+
+                button.style.pointerEvents =
+                    "none";
+
+
+                button.style.opacity =
+                    "0";
+
+
+                button.style.transform =
+                    "scale(.75)";
+
+
+                setTimeout(
+                    function () {
+
+                        button.remove();
+
+                    },
+                    160
+                );
+
+
+                /* ครบ 10 ลูกกวาด = จบเกมทันที */
+
+                if (
+                    candyScore >=
+                    TOTAL_CANDIES
+                ) {
+
+                    endGame();
+
+                }
+
+            }
+        );
+
+
+        candyField.appendChild(
+            button
+        );
+    }
+
+
+    /* =====================================================
+       CREATE RANDOM CANDIES
+
+       สุ่มในสนามรอบกึ่งกลางหน้าจอ
+    ===================================================== */
+
+    function createRandomCandies() {
+
+        candyField.innerHTML = "";
+
+
+        const positions = [];
+
+
+        for (
+            let i = 0;
+            i < TOTAL_CANDIES;
+            i++
+        ) {
+
+            let x;
+
+            let y;
+
+            let safe = false;
+
+            let attempts = 0;
+
+
+            while (
+                !safe &&
+                attempts < 200
+            ) {
+
+                x =
+                    Math.floor(
+                        Math.random() *
+                        (
+                            candyField.clientWidth -
+                            65
+                        )
+                    );
+
+
+                y =
+                    Math.floor(
+                        Math.random() *
+                        (
+                            candyField.clientHeight -
+                            55
+                        )
+                    );
+
+
+                safe = true;
+
+
+                /*
+                   ป้องกันไม่ให้ลูกกวาด
+                   ซ้อนกันมากเกินไป
+                */
+
+                for (
+                    const pos
+                    of positions
+                ) {
+
+                    const dx =
+                        x - pos.x;
+
+
+                    const dy =
+                        y - pos.y;
+
+
+                    const distance =
+                        Math.sqrt(
+                            dx * dx +
+                            dy * dy
+                        );
+
+
+                    if (
+                        distance < 75
+                    ) {
+
+                        safe = false;
+
+                        break;
+                    }
+
+                }
+
+
+                attempts++;
+            }
+
+
+            positions.push({
+                x: x,
+                y: y
+            });
+
+
+            createCandy(
+                x,
+                y
+            );
+        }
+    }
+
+
+    /* =====================================================
+       END GAME
+
+       แสดงคะแนนที่สะสมได้
+    ===================================================== */
+
+    function endGame() {
+
+        if (!gameRunning) {
+
+            return;
+        }
+
+
+        gameRunning = false;
+
+
+        clearInterval(
+            timerInterval
+        );
+
+
+        timerInterval = null;
+
+
+        timeLeft = 0;
+
+
+        updateTimer();
+
+
+        /*
+           เอาลูกกวาดที่ยังไม่ได้เก็บ
+           ออกจากสนาม
+        */
+
+        candyField.innerHTML = "";
+
+
+        /*
+           ส่งคะแนนปัจจุบันไปแสดงใน Pop-Up
+        */
+
+        finalScore.textContent =
+            candyScore;
+
+
+        gameOver.classList.add(
+            "game-over-visible"
+        );
+    }
+
+
+    /* =====================================================
+       START / RESTART GAME
+
+       สำคัญ:
+       ทุกครั้งที่กดเริ่มเกมใหม่
+
+       เวลา = 30
+       คะแนน = 0
+       ลูกกวาดช่องสะสม = ว่าง
+       ลูกกวาดสนาม = สุ่มใหม่
+    ===================================================== */
+
+    function startGame() {
+
+        /*
+           หยุด Timer เก่าก่อน
+           ป้องกัน Timer ซ้อนกัน
+        */
+
+        clearInterval(
+            timerInterval
+        );
+
+
+        timerInterval = null;
+
+
+        /*
+           RESET เวลา
+        */
+
+        timeLeft =
+            GAME_TIME;
+
+
+        /*
+           RESET คะแนน
+        */
+
+        candyScore = 0;
+
+
+        /*
+           เปิดสถานะเกม
+        */
+
+        gameRunning = true;
+
+
+        /*
+           ซ่อน Pop-Up
+        */
+
+        gameOver.classList.remove(
+            "game-over-visible"
+        );
+
+
+        /*
+           RESET หน้าจอ
+        */
+
+        updateTimer();
+
+        updateCandy();
+
+
+        /*
+           สุ่มลูกกวาดชุดใหม่
+        */
+
+        createRandomCandies();
+
+
+        /*
+           เริ่ม Timer ใหม่
+        */
+
+        timerInterval =
+            setInterval(
+                function () {
+
+                    if (!gameRunning) {
+
+                        return;
+                    }
+
+
+                    timeLeft--;
+
+
+                    updateTimer();
+
+
+                    /*
+                       หมดเวลา
+                    */
+
+                    if (
+                        timeLeft <= 0
+                    ) {
+
+                        endGame();
+
+                    }
+
+                },
+                1000
+            );
+    }
+
+
+    /* =====================================================
+       RESTART BUTTON
+    ===================================================== */
+
+    restartButton.addEventListener(
+        "click",
+        function () {
+
+            startGame();
+
+        }
+    );
+
+
+    /* =====================================================
+       RESIZE
+    ===================================================== */
+
+    window.addEventListener(
+        "resize",
+        function () {
+
+            resizeGame();
+
+        }
+    );
+
+
+    /* =====================================================
+       START GAME
+
+       เริ่มเกมทันทีเมื่อเปิดหน้า
+    ===================================================== */
+
+    resizeGame();
+
+    startGame();
+
+</script>
+
+</body>
+</html>
