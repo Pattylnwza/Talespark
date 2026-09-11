@@ -1,0 +1,633 @@
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #432314;
+        }
+
+        body {
+            font-family:
+                "Trebuchet MS",
+                "Arial Rounded MT Bold",
+                Arial,
+                sans-serif;
+        }
+
+
+        /* =====================================================
+           GAME
+        ===================================================== */
+
+        #game {
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 100vw;
+            height: 100vh;
+
+            overflow: hidden;
+
+            background: #432314;
+        }
+
+
+        /* =====================================================
+           STAGE
+
+           Design Resolution = 1920 x 1080
+
+           ทั้งฉากจะถูก Scale ให้พอดีกับหน้าจอ
+           โดยไม่ Crop ภาพ
+        ===================================================== */
+
+        #stage {
+            position: absolute;
+
+            width: 1920px;
+            height: 1080px;
+
+            left: 50%;
+            top: 50%;
+
+            transform-origin: center center;
+
+            background-image: url("BG_mini2.png");
+
+            background-size: 1920px 1080px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+        /* =====================================================
+           TIMER
+
+           อ้างอิงตำแหน่งและขนาดจาก V1
+        ===================================================== */
+
+        #timer {
+            position: absolute;
+
+            left: 330px;
+            top: 827px;
+
+            width: 790px;
+            height: 92px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #663015;
+
+            font-size: 32px;
+            font-weight: bold;
+
+            text-align: center;
+
+            text-shadow:
+                1px 2px 0 rgba(255, 255, 255, 0.55);
+
+            z-index: 30;
+
+            pointer-events: none;
+        }
+
+
+        #timerLabel {
+            margin-right: 18px;
+
+            position: relative;
+
+            z-index: 50;
+        }
+
+
+        #timerNumber {
+            min-width: 45px;
+
+            position: relative;
+
+            z-index: 50;
+
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           TIMER BAR
+
+           ขนาดเดียวกับ V1
+        ===================================================== */
+
+        #timerBar {
+            position: absolute;
+
+            left: 109px;
+            top: 25px;
+
+            width: 652px;
+            height: 50px;
+
+            background: transparent;
+
+            border-radius: 999px;
+
+            overflow: hidden;
+
+            z-index: 10;
+        }
+
+
+        #timerBarFill {
+            width: 100%;
+            height: 100%;
+
+            background:
+                rgba(255, 248, 220, 0.32);
+
+            border:
+                3px solid rgba(255, 255, 255, 0.18);
+
+            border-radius: 999px;
+
+            transition:
+                width 1s linear;
+        }
+
+
+        /* =====================================================
+           SCORE AREA
+
+           ตำแหน่งและขนาดอ้างอิง V1
+        ===================================================== */
+
+        #scoreArea {
+            position: absolute;
+
+            left: 1065px;
+            top: 135px;
+
+            width: 470px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            gap: 0px;
+
+            z-index: 20;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           SCORE TEXT
+        ===================================================== */
+
+        #candyCount {
+            position: absolute;
+
+            left: 0;
+            top: -60px;
+
+            width: 470px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #663015;
+
+            font-size: 30px;
+            font-weight: bold;
+
+            text-align: center;
+
+            text-shadow:
+                1px 2px 0 rgba(255, 255, 255, 0.55);
+
+            z-index: 50;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           COLLECTED CANDIES
+        ===================================================== */
+
+        #collectedCandies {
+            width: 470px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            gap: 0px;
+
+            overflow: visible;
+        }
+
+
+        /* =====================================================
+           CANDY SLOT
+
+           ขนาดเดียวกับ V1
+        ===================================================== */
+
+        .candy-slot {
+            position: relative;
+
+            width: 30px;
+            height: 42px;
+
+            flex: 0 0 52.5px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            opacity: 0;
+
+            transform: scale(0.85);
+
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .candy-slot.show {
+            opacity: 1;
+
+            transform: scale(0.9);
+        }
+
+
+        /* =====================================================
+           CANDY GRAPHIC
+
+           ขนาดเดียวกับ V1
+        ===================================================== */
+
+        .candy {
+            position: relative;
+
+            width: 52px;
+            height: 34px;
+
+            filter:
+                drop-shadow(
+                    0px 3px 2px rgba(80, 30, 10, 0.35)
+                );
+        }
+
+
+        /* ตัวลูกกวาด */
+
+        .candy-body {
+            position: absolute;
+
+            left: 14px;
+            top: 4px;
+
+            width: 26px;
+            height: 26px;
+
+            border-radius: 50%;
+
+            background:
+                repeating-linear-gradient(
+                    135deg,
+
+                    #f15b67 0px,
+                    #f15b67 7px,
+
+                    #fff2e8 7px,
+                    #fff2e8 13px
+                );
+
+            border:
+                3px solid #9b3d2c;
+
+            transform: rotate(-8deg);
+        }
+
+
+        /* กระดาษห่อซ้าย */
+
+        .candy-left {
+            position: absolute;
+
+            left: 0;
+            top: 7px;
+
+            width: 18px;
+            height: 20px;
+
+            background: #f05a68;
+
+            clip-path:
+                polygon(
+                    100% 50%,
+                    15% 0%,
+                    0% 50%,
+                    15% 100%
+                );
+        }
+
+
+        /* กระดาษห่อขวา */
+
+        .candy-right {
+            position: absolute;
+
+            right: 0;
+            top: 7px;
+
+            width: 18px;
+            height: 20px;
+
+            background: #f05a68;
+
+            clip-path:
+                polygon(
+                    0% 50%,
+                    85% 0%,
+                    100% 50%,
+                    85% 100%
+                );
+        }
+
+
+        /* =====================================================
+           DIFFERENCE HOTSPOTS
+
+           จุดแตกต่าง 10 จุด อ้างอิงจาก Mark_WrongPics.jpg
+           พิกัดถูกแปลงกลับมาเป็น Design Resolution 1920 x 1080
+           จุดกดเป็นพื้นที่โปร่งใส จึงไม่เปลี่ยนดีไซน์ของภาพ
+        ===================================================== */
+
+        #differenceField {
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 1920px;
+            height: 1080px;
+
+            z-index: 25;
+
+            pointer-events: none;
+        }
+
+
+        .difference-hotspot {
+            position: absolute;
+
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            pointer-events: auto;
+
+            outline: none;
+        }
+
+
+        .difference-hotspot:hover {
+            background: transparent;
+        }
+
+
+        .difference-hotspot.found {
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           FOUND MARKER
+
+           เมื่อผู้เล่นกดจุดแตกต่างแล้ว
+           จะแสดงเครื่องหมาย ✓ ทับบริเวณจุดนั้น
+           เพื่อให้เห็นว่าจุดนี้ถูกเลือกไปแล้ว
+        ===================================================== */
+
+        .difference-hotspot.found::after {
+            content: "✓";
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255, 255, 255, 0.88);
+
+            border: 5px solid #bd4535;
+            border-radius: 50%;
+
+            color: #bd4535;
+
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 1;
+
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7);
+
+            box-shadow:
+                0 3px 5px rgba(80, 30, 10, 0.35);
+
+            pointer-events: none;
+
+            z-index: 5;
+
+            animation: foundMarkerPop 0.2s ease-out;
+        }
+
+
+        @keyframes foundMarkerPop {
+
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.65);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+
+        /* =====================================================
+           GAME OVER POP-UP
+
+           ขนาดเดียวกับ V1
+        ===================================================== */
+
+        #gameOver {
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            width: 590px;
+
+            padding:
+                42px 45px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    #fff4d5,
+                    #f5d49a
+                );
+
+            border:
+                8px solid #713719;
+
+            border-radius: 35px;
+
+            box-shadow:
+                0 10px 0 #4e210f,
+                0 15px 30px rgba(0, 0, 0, 0.35);
+
+            text-align: center;
+
+            z-index: 100;
+
+            display: none;
+        }
+
+
+        .game-over-visible {
+            display: block !important;
+        }
+
+
+        /* =====================================================
+           GAME OVER TITLE
+        ===================================================== */
+
+        #gameOverTitle {
+            color: #bd4535;
+
+            font-size: 48px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+            text-shadow:
+                2px 3px 0 #ffffff;
+        }
+
+
+        /* =====================================================
+           GAME OVER TEXT
+        ===================================================== */
+
+        #gameOverText {
+            color: #713719;
+
+            font-size: 25px;
+
+            line-height: 1.6;
+
+            font-weight: bold;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =====================================================
+           RESTART BUTTON
+        ===================================================== */
+
+        #restartButton {
+            border: none;
+
+            padding:
+                13px 42px;
+
+            min-width: 250px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ffd36c,
+                    #e99b35
+                );
+
+            border:
+                5px solid #713719;
+
+            color: #663015;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 0 #54250f;
+
+            transition:
+                transform 0.12s ease,
+                box-shadow 0.12s ease;
+        }
+
+
+        #restartButton:hover {
+            transform:
+                translateY(-2px);
+        }
+
+
+        #restartButton:active {
+            transform:
+                translateY(4px);
+
+            box-shadow:
+                0 1px 0 #54250f;
+        }
+
+    
