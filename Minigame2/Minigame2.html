@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Minigame 2 - จับผิดบ้านขนมหวาน</title>
+
+    <link rel="stylesheet" href="Minigame2.css">
+</head>
+
+
+<body>
+
+<div id="game">
+
+    <div id="stage">
+
+
+        <!-- =================================================
+             TIMER
+        ================================================= -->
+
+        <div id="timer">
+
+            <span id="timerLabel">
+                Timing
+            </span>
+
+            <span id="timerNumber">
+                30
+            </span>
+
+            <div id="timerBar">
+
+                <div id="timerBarFill"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SCORE
+        ================================================= -->
+
+        <div id="scoreArea">
+
+            <div id="candyCount">
+
+                ลูกกวาดสะสม:
+                <span id="candyCountNumber">
+                    0
+                </span>/10
+
+            </div>
+
+
+            <div id="collectedCandies">
+
+
+                <!-- Candy 1 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy1"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 2 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy2"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 3 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy3"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 4 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy4"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 5 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy5"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 6 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy6"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 7 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy7"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 8 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy8"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 9 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy9"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candy 10 -->
+
+                <div
+                    class="candy-slot"
+                    id="candy10"
+                >
+
+                    <div class="candy">
+
+                        <div class="candy-left"></div>
+
+                        <div class="candy-body"></div>
+
+                        <div class="candy-right"></div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DIFFERENCE FIELD
+
+             จุดกดจับผิด 10 จุด
+             วางทับบนภาพด้านขวาแบบโปร่งใส
+        ================================================= -->
+
+        <div id="differenceField">
+
+            <button class="difference-hotspot" data-index="1"
+                    style="left: 1372px; top: 258px; width: 71px; height: 69px;"
+                    aria-label="จุดแตกต่างที่ 1"></button>
+
+            <button class="difference-hotspot" data-index="2"
+                    style="left: 1166px; top: 289px; width: 73px; height: 59px;"
+                    aria-label="จุดแตกต่างที่ 2"></button>
+
+            <button class="difference-hotspot" data-index="3"
+                    style="left: 1447px; top: 338px; width: 75px; height: 64px;"
+                    aria-label="จุดแตกต่างที่ 3"></button>
+
+            <button class="difference-hotspot" data-index="4"
+                    style="left: 1171px; top: 401px; width: 67px; height: 48px;"
+                    aria-label="จุดแตกต่างที่ 4"></button>
+
+            <button class="difference-hotspot" data-index="5"
+                    style="left: 1513px; top: 407px; width: 55px; height: 75px;"
+                    aria-label="จุดแตกต่างที่ 5"></button>
+
+            <button class="difference-hotspot" data-index="6"
+                    style="left: 1076px; top: 410px; width: 62px; height: 49px;"
+                    aria-label="จุดแตกต่างที่ 6"></button>
+
+            <button class="difference-hotspot" data-index="7"
+                    style="left: 1462px; top: 465px; width: 51px; height: 55px;"
+                    aria-label="จุดแตกต่างที่ 7"></button>
+
+            <button class="difference-hotspot" data-index="8"
+                    style="left: 991px; top: 527px; width: 68px; height: 67px;"
+                    aria-label="จุดแตกต่างที่ 8"></button>
+
+            <button class="difference-hotspot" data-index="9"
+                    style="left: 1204px; top: 597px; width: 41px; height: 40px;"
+                    aria-label="จุดแตกต่างที่ 9"></button>
+
+            <button class="difference-hotspot" data-index="10"
+                    style="left: 1350px; top: 605px; width: 63px; height: 62px;"
+                    aria-label="จุดแตกต่างที่ 10"></button>
+
+        </div>
+
+
+        <!-- =================================================
+             GAME OVER
+        ================================================= -->
+
+        <div id="gameOver">
+
+            <div id="gameOverTitle">
+                หมดเวลาแล้ว!
+            </div>
+
+
+            <div id="gameOverText">
+                เกมจบแล้วจ้า
+                <br>
+                ลูกกวาดที่สะสมได้
+                <span id="finalScore">
+                    0
+                </span>
+                ชิ้น
+            </div>
+
+
+            <button id="restartButton">
+                เริ่มเกมใหม่
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script src="Minigame2.js"></script>
+
+</body>
+</html>
