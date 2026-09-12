@@ -1,0 +1,916 @@
+/* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            font-family:
+                "Trebuchet MS",
+                "Tahoma",
+                sans-serif;
+
+            background: #1c120d;
+        }
+
+
+        /* =====================================================
+           GAME
+        ===================================================== */
+
+        #game {
+            position: absolute;
+
+            width: 1920px;
+            height: 1080px;
+
+            left: 50%;
+            top: 50%;
+
+            overflow: hidden;
+
+            background: #1c120d;
+
+            transform-origin: center center;
+        }
+
+
+        /* =====================================================
+           BACKGROUND
+        ===================================================== */
+
+        #background {
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 100%;
+
+            /* ใช้ภาพเต็มพื้นที่ 1920x1080 โดยไม่ crop */
+            object-fit: fill;
+
+            z-index: 1;
+
+            transition:
+                opacity 0.35s ease,
+                transform 0.35s ease;
+        }
+
+
+        #background.scene-change {
+            opacity: 0.1;
+            transform: scale(1.025);
+        }
+
+
+        /* =====================================================
+           DARK OVERLAY
+        ===================================================== */
+
+        #darkOverlay {
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 2;
+
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.02),
+                    rgba(0, 0, 0, 0) 60%,
+                    rgba(0, 0, 0, 0.28)
+                );
+        }
+
+
+        /* =====================================================
+           STORY PANEL
+           ใช้ Design System เดียวกับ Story_ch1
+        ===================================================== */
+
+        .storyPanel {
+            position: absolute;
+
+            left: 50%;
+            bottom: 8%;
+
+            transform:
+                translateX(-50%);
+
+            width:
+                min(60.5%, 1000px);
+
+            height:
+                clamp(
+                    180px,
+                    22.4vh,
+                    210px
+                );
+
+            z-index: 8;
+
+            padding:
+                10px 18px 18px;
+
+            border-radius:
+                25px;
+
+            background:
+                rgba(55, 42, 29, 0.84);
+
+            border:
+                2px solid
+                rgba(216, 154, 51, 0.95);
+
+            box-shadow:
+                0 5px 15px
+                rgba(0, 0, 0, 0.25);
+
+            backdrop-filter:
+                blur(1px);
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            overflow:
+                hidden;
+        }
+
+
+        /* =====================================================
+           SCENE TITLE
+        ===================================================== */
+
+        .chapterTitle {
+            align-self:
+                flex-start;
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            flex-shrink:
+                0;
+
+            padding:
+                8px 27px;
+
+            margin:
+                0 0 7px 0;
+
+            min-height:
+                38px;
+
+            border-radius:
+                24px;
+
+            background:
+                #d89a33;
+
+            color:
+                #fffdf5;
+
+            font-size:
+                clamp(
+                    15px,
+                    1.2vw,
+                    20px
+                );
+
+            font-weight:
+                bold;
+
+            line-height:
+                1.1;
+
+            white-space:
+                nowrap;
+
+            box-shadow:
+                0 2px 5px
+                rgba(0, 0, 0, 0.18);
+        }
+
+
+        /* =====================================================
+           STORY TEXT
+        ===================================================== */
+
+        .storyText {
+            position:
+                relative;
+
+            width:
+                100%;
+
+            min-height:
+                48px;
+
+            max-height:
+                60px;
+
+            flex-shrink:
+                0;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            overflow:
+                hidden;
+
+            color:
+                #fffdf8;
+
+            font-size:
+                clamp(
+                    17px,
+                    1.4vw,
+                    26px
+                );
+
+            line-height:
+                1.35;
+
+            padding:
+                0 10px;
+
+            text-align:
+                center;
+
+            text-shadow:
+                0 2px 3px
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        /* =====================================================
+           TYPING CURSOR
+        ===================================================== */
+
+        .typingCursor {
+            display:
+                inline-block;
+
+            width:
+                2px;
+
+            height:
+                1em;
+
+            margin-left:
+                3px;
+
+            vertical-align:
+                -2px;
+
+            background:
+                #ffe08b;
+
+            animation:
+                blink 0.7s infinite;
+        }
+
+
+        @keyframes blink {
+            0%,
+            45% {
+                opacity: 1;
+            }
+
+            46%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+
+        /* =====================================================
+           READ AREA
+        ===================================================== */
+
+        .readArea {
+            display:
+                flex;
+
+            justify-content:
+                flex-end;
+
+            align-items:
+                center;
+
+            margin-top:
+                auto;
+
+            padding-top:
+                5px;
+
+            flex-shrink:
+                0;
+        }
+
+
+        /* =====================================================
+           READ BUTTON
+        ===================================================== */
+
+        .readBtn {
+            border:
+                none;
+
+            cursor:
+                pointer;
+
+            min-width:
+                125px;
+
+            height:
+                38px;
+
+            padding:
+                7px 20px;
+
+            border-radius:
+                23px;
+
+            background:
+                #d89a33;
+
+            color:
+                #fffdf5;
+
+            font-size:
+                clamp(
+                    13px,
+                    1vw,
+                    17px
+                );
+
+            font-weight:
+                bold;
+
+            box-shadow:
+                0 3px 7px
+                rgba(0, 0, 0, 0.22);
+
+            transition:
+                transform 0.18s ease,
+                filter 0.18s ease;
+        }
+
+
+        .readBtn:hover {
+            transform:
+                translateY(-1px);
+
+            filter:
+                brightness(1.08);
+        }
+
+
+        .readBtn.hidden {
+            display:
+                none;
+        }
+
+
+        /* =====================================================
+           EMOTION AREA
+        ===================================================== */
+
+        .emotionArea {
+            display:
+                none;
+
+            flex-shrink:
+                0;
+
+            margin-top:
+                0;
+
+            animation:
+                fadeUp 0.35s ease;
+        }
+
+
+        .emotionArea.show {
+            display:
+                block;
+        }
+
+
+        /* =====================================================
+           EMOTION HINT
+        ===================================================== */
+
+        .emotionHint {
+            color:
+                #fffdf8;
+
+            font-size:
+                clamp(
+                    12px,
+                    0.95vw,
+                    16px
+                );
+
+            font-weight:
+                normal;
+
+            margin:
+                0 0 6px 0;
+
+            line-height:
+                1.2;
+
+            text-align:
+                left;
+
+            white-space:
+                nowrap;
+
+            text-shadow:
+                0 2px 3px
+                rgba(0, 0, 0, 0.4);
+        }
+
+
+        /* =====================================================
+           CHOICE BUTTONS
+        ===================================================== */
+
+        .choices {
+            display:
+                flex;
+
+            width:
+                100%;
+
+            gap:
+                9px;
+
+            flex-wrap:
+                nowrap;
+
+            margin-bottom:
+                4px;
+        }
+
+
+        .choiceBtn {
+            flex:
+                1;
+
+            min-width:
+                0;
+
+            height:
+                40px;
+
+            padding:
+                5px 10px;
+
+            border:
+                2px solid
+                transparent;
+
+            border-radius:
+                15px;
+
+            background:
+                #ffeedd;
+
+            color:
+                #5a3923;
+
+            cursor:
+                pointer;
+
+            font-size:
+                clamp(
+                    13px,
+                    1.1vw,
+                    19px
+                );
+
+            font-weight:
+                bold;
+
+            line-height:
+                1.15;
+
+            box-shadow:
+                0 2px 6px
+                rgba(0, 0, 0, 0.20);
+
+            transition:
+                transform 0.18s ease,
+                background 0.18s ease,
+                border-color 0.18s ease;
+
+            white-space:
+                normal;
+        }
+
+
+        .choiceBtn:hover {
+            transform:
+                translateY(-1px);
+
+            background:
+                #fff3e8;
+        }
+
+
+        .choiceBtn.selected {
+            background:
+                #ffd45c;
+
+            border-color:
+                #fff0af;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(255, 212, 92, 0.20),
+
+                0 4px 9px
+                rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* =====================================================
+           RESPONSE BOX
+        ===================================================== */
+
+        .responseBox {
+            display:
+                none;
+
+            width:
+                100%;
+
+            min-height:
+                50px;
+
+            height:
+                auto;
+
+            max-height:
+                66px;
+
+            flex-shrink:
+                0;
+
+            margin-top:
+                2px;
+
+            padding:
+                0 12px;
+
+            border:
+                none;
+
+            background:
+                transparent;
+
+            color:
+                #fffdf8;
+
+            font-size:
+                clamp(
+                    17px,
+                    1.4vw,
+                    26px
+                );
+
+            line-height:
+                1.35;
+
+            overflow:
+                visible;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            text-align:
+                center;
+
+            text-shadow:
+                0 2px 3px
+                rgba(0, 0, 0, 0.45);
+
+            animation:
+                fadeUp 0.35s ease;
+        }
+
+
+        .responseBox.show {
+            display:
+                flex;
+        }
+
+
+        .emotionTag {
+            display:
+                none;
+        }
+
+
+        /* =====================================================
+           NEXT AREA
+        ===================================================== */
+
+        .nextArea {
+            display:
+                flex;
+
+            justify-content:
+                flex-end;
+
+            align-items:
+                center;
+
+            margin-top:
+                auto;
+
+            padding-top:
+                5px;
+
+            flex-shrink:
+                0;
+        }
+
+
+        /* =====================================================
+           NEXT BUTTON
+        ===================================================== */
+
+        .nextBtn {
+            border:
+                none;
+
+            cursor:
+                pointer;
+
+            min-width:
+                125px;
+
+            height:
+                38px;
+
+            padding:
+                7px 20px;
+
+            border-radius:
+                23px;
+
+            background:
+                #d89a33;
+
+            color:
+                #fffdf5;
+
+            font-size:
+                clamp(
+                    13px,
+                    1vw,
+                    17px
+                );
+
+            font-weight:
+                bold;
+
+            box-shadow:
+                0 3px 7px
+                rgba(0, 0, 0, 0.22);
+
+            transition:
+                transform 0.18s ease,
+                filter 0.18s ease;
+        }
+
+
+        .nextBtn:hover {
+            transform:
+                translateY(-1px);
+
+            filter:
+                brightness(1.08);
+        }
+
+
+        .nextBtn:disabled {
+            opacity:
+                0.45;
+
+            cursor:
+                not-allowed;
+
+            transform:
+                none;
+        }
+
+
+        .nextBtn.waiting {
+            display:
+                none;
+        }
+
+
+        /* =====================================================
+           END SCREEN
+        ===================================================== */
+
+        .endScreen {
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            z-index:
+                30;
+
+            display:
+                none;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+                rgba(20, 12, 8, 0.68);
+
+            backdrop-filter:
+                blur(3px);
+        }
+
+
+        .endScreen.show {
+            display:
+                flex;
+        }
+
+
+        .endCard {
+            width:
+                min(90%, 620px);
+
+            padding:
+                28px;
+
+            border-radius:
+                25px;
+
+            background:
+                #fff5d9;
+
+            border:
+                4px solid
+                #dba154;
+
+            color:
+                #59331f;
+
+            text-align:
+                center;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.5);
+
+            animation:
+                popIn 0.45s ease;
+        }
+
+
+        .endCard h2 {
+            margin-bottom:
+                12px;
+
+            font-size:
+                27px;
+        }
+
+
+        .endCard p {
+            margin-bottom:
+                20px;
+
+            font-size:
+                22px;
+
+            line-height:
+                1.7;
+        }
+
+
+        .restartBtn {
+            border:
+                none;
+
+            cursor:
+                pointer;
+
+            padding:
+                10px 23px;
+
+            border-radius:
+                16px;
+
+            background:
+                #8a5634;
+
+            color:
+                white;
+
+            font-size:
+                20px;
+
+            font-weight:
+                bold;
+
+            transition:
+                transform 0.18s ease,
+                filter 0.18s ease;
+        }
+
+
+        .restartBtn:hover {
+            transform:
+                translateY(-2px);
+
+            filter:
+                brightness(1.1);
+        }
+
+
+        /* =====================================================
+           ANIMATION
+        ===================================================== */
+
+        @keyframes fadeUp {
+            from {
+                opacity:
+                    0;
+
+                transform:
+                    translateY(5px);
+            }
+
+            to {
+                opacity:
+                    1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        @keyframes popIn {
+            from {
+                opacity:
+                    0;
+
+                transform:
+                    scale(0.94);
+            }
+
+            to {
+                opacity:
+                    1;
+
+                transform:
+                    scale(1);
+            }
+        }
