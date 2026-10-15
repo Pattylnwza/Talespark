@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minigame 3: หาทางเปิดประตู!</title>
+<link rel="stylesheet" href="Minigame3.css">
+</head>
+<body>
+<div id="game">
+    <img id="background" src="BG_mini3-1.png" alt="Minigame 3 background">
+
+    <div id="ui">
+        <div id="scoreText">กุญแจคงเหลือ: 10/10</div>
+        <div id="keyBar"></div>
+
+        <div id="content">
+            <section id="introScreen">
+                <div id="introTitle">เอ๊ะ! ประตูมีเวทมนตร์อยู่ด้วย!</div>
+                <div id="introText">
+                    ต้องเรียงสัญลักษณ์ให้ถูกก่อน ถึงจะเปิดได้!<br>
+                    ดูสัญลักษณ์ที่ปรากฏขึ้นทีละตัวให้ดี<br>
+                    แล้วจำลำดับไว้ให้ได้!<br>
+                    จากนั้นเรียงสัญลักษณ์ให้ถูกต้อง<br>
+                    เพื่อเปิดประตูไปเอาคทาวิเศษ<br>
+                    มีโอกาสเพียง 10 ครั้ง! ตั้งใจเรียงให้ถูกนะ
+                </div>
+                <button id="startButton">เริ่มเกม</button>
+            </section>
+
+            <section id="gameScreen" class="hidden">
+                <div id="questionTitle"></div>
+                <div id="message"></div>
+                <div id="countdown"></div>
+
+                <div id="memoryArea" class="hidden">
+                    <div id="sequenceDisplay"></div>
+                </div>
+
+                <div id="answerArea" class="hidden">
+                    <div id="answerLabel">เรียงสัญลักษณ์ตามลำดับที่จำได้</div>
+                    <div id="answerSlots"></div>
+                    <div id="options"></div>
+                    <button id="replayButton" type="button">↻ ดูลำดับอีกครั้ง</button>
+                    <button id="nextButton" type="button">➜</button>
+                </div>
+
+                <div id="feedback"></div>
+            </section>
+
+            <section id="resultScreen" class="hidden">
+                <div id="resultText">
+                    เย้! ประตูเปิดแล้ว! ต่อไปก็ไปเอา<br>
+                    คทามาช่วยฮันเซล!
+                </div>
+                <div id="resultScore"></div>
+                <button id="takeStaffButton">หยิบคทาวิเศษ</button>
+            </section>
+        </div>
+
+        <div id="celebration"></div>
+    </div>
+</div>
+
+<script src="Minigame3.js"></script>
+</body>
+</html>
