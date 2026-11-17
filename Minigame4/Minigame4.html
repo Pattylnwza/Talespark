@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Minigame 4 - Jigsaw Puzzle</title>
+
+<link rel="stylesheet" href="Minigame4.css">
+</head>
+
+<body>
+
+<div id="gameViewport">
+
+<main id="gameScene" aria-label="เกมต่อภาพจิ๊กซอว์">
+
+    <div id="scoreText">จิ๊กซอว์สะสม: 0/10</div>
+
+    <div id="scoreIcons" aria-label="คะแนนจิ๊กซอว์"></div>
+
+    <div id="timer">
+
+        <div id="timerBar">
+            <div id="timerBarFill"></div>
+        </div>
+
+        <span id="timerLabel">เวลา</span>
+
+        <span id="timerNumber">60</span>
+
+        <span id="timerUnit">วินาที</span>
+
+    </div>
+
+    <section id="leftTray" class="piece-tray"
+        aria-label="ชิ้นส่วนด้านซ้าย">
+    </section>
+
+    <section id="puzzleBoard"
+        aria-label="พื้นที่ต่อภาพ 16 ช่อง">
+    </section>
+
+    <section id="rightTray" class="piece-tray"
+        aria-label="ชิ้นส่วนด้านขวา">
+    </section>
+
+    <button id="homeButton"
+        aria-label="กลับหน้าหลัก"
+        title="กลับหน้าหลัก">
+    </button>
+
+    <div id="modal">
+
+        <div class="modal-card">
+
+            <h1 id="modalTitle">
+                มินิเกมที่ 4: แฮปปี้เอ็นดิ้ง!
+            </h1>
+
+            <p id="modalMessage">
+                จดจำภาพครอบครัวให้ดี แล้วช่วยกันต่อภาพให้สมบูรณ์นะ!
+            </p>
+
+            <img
+                id="previewImage"
+                src="BigPic.png"
+                alt="ภาพตัวอย่างจิ๊กซอว์"
+            >
+
+            <div id="previewHint">
+                กำลังแสดงภาพตัวอย่าง 5 วินาที...
+            </div>
+
+            <button id="startButton" class="game-button">
+                เริ่มเกม
+            </button>
+
+            <button id="restartButton"
+                class="game-button"
+                style="display:none">
+                เล่นอีกครั้ง
+            </button>
+
+            <button id="dashboardButton"
+                class="game-button"
+                style="display:none; background: linear-gradient(#5cb85c, #449d44); border-color: #8d431e; margin-top: 10px;">
+                ไปหน้าดูคะแนน ➜
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+</div>
+
+<!-- เปลี่ยนบรรทัดนี้ -->
+<script type="module" src="Minigame4.js"></script>
+
+</body>
+</html>
