@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hansel & Gretel - Chapter 3</title>
+    <link rel="stylesheet" href="Story_ch4.css">
+</head>
+
+
+<body>
+
+<div id="game">
+
+    <!-- =====================================================
+         BACKGROUND
+    ===================================================== -->
+
+    <img
+        id="background"
+        src="scene1.png"
+        alt="ฉากนิทานฮันเซลกับเกรเทล"
+    >
+
+    <div id="darkOverlay"></div>
+
+
+    <!-- =====================================================
+         STORY PANEL
+    ===================================================== -->
+
+    <div class="storyPanel">
+
+        <!-- ชื่อฉาก -->
+
+        <div
+            class="chapterTitle"
+            id="chapterTitle"
+        >
+            ฉากที่ 1: กลับถึงบ้าน
+        </div>
+
+
+        <!-- ข้อความบรรยาย -->
+
+        <div
+            class="storyText"
+            id="storyText"
+        ></div>
+
+
+        <!-- ปุ่มอ่านต่อ -->
+
+        <div
+            class="readArea"
+            id="readArea"
+        >
+
+            <button
+                class="readBtn"
+                id="readBtn"
+                onclick="handleRead()"
+            >
+                อ่านต่อ ▼
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             เลือกความรู้สึก
+        ================================================== -->
+
+        <div
+            class="emotionArea"
+            id="emotionArea"
+        >
+
+            <div class="emotionHint">
+                💭 เลือกว่าตัวละครจะแสดงความรู้สึกแบบไหน
+            </div>
+
+
+            <div
+                class="choices"
+                id="choices"
+            ></div>
+
+        </div>
+
+
+        <!-- =================================================
+             บทพูดหลังเลือกความรู้สึก
+        ================================================== -->
+
+        <div
+            class="responseBox"
+            id="responseBox"
+        ></div>
+
+
+        <!-- ปุ่มไปต่อ -->
+
+        <div class="nextArea">
+
+            <button
+                class="nextBtn waiting"
+                id="nextBtn"
+                onclick="nextStep()"
+                disabled
+            >
+                เลือกความรู้สึกก่อน →
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         END SCREEN
+    ===================================================== -->
+
+    <div
+        class="endScreen"
+        id="endScreen"
+    >
+
+        <div class="endCard">
+
+            <h2>
+                ✨ จบ Chapter 4 ✨
+            </h2>
+
+
+            <p>
+                การเดินทางอันยาวนานของสองพี่น้องสำเร็จลงด้วยดี
+                <br>
+                มาร่วมกันต่อชิ้นส่วนความทรงจำในมินิเกมจิ๊กซอว์ เพื่อส่งท้ายการผจญภัยครั้งนี้กันนะ!
+            </p>
+
+
+            <button
+                class="restartBtn"
+                onclick="goToMinigame4()"
+            >
+                ไปต่อจิ๊กซอว์กัน! →
+            </button>
+
+        </div>
+        
+    </div>
+
+
+</div>
+    <script src="Story_ch4.js"></script>
+</body>
+
+</html>
