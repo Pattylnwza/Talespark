@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แดชบอร์ดสรุปคะแนน</title>
+    <!-- เชื่อมโยงไฟล์ CSS -->
+    <link rel="stylesheet" href="Dashboard.css">
+</head>
+<body>
+
+    <!-- ใช้โครงสร้าง #game แบบเดียวกับ Homepage เพื่อให้สเกลเป๊ะไม่ยืดเบี้ยว -->
+    <div id="game">
+        
+        <!-- ปุ่มรูปบ้าน (Home Button) -->
+        <button id="homeButton" aria-label="กลับหน้าหลัก" title="กลับหน้าหลัก"></button>
+
+        <!-- 1. ชื่อผู้เล่น -->
+        <div id="playerNameText" class="overlay-text">ของคุณ กำลังโหลด...</div>
+
+        <!-- 2. คะแนนมินิเกมแต่ละช่องทางขวา -->
+        <div id="score1" class="overlay-text score-box">/ 10</div>
+        <div id="score2" class="overlay-text score-box">/ 10</div>
+        <div id="score3" class="overlay-text score-box">/ 10</div>
+        <div id="score4" class="overlay-text score-box">/ 10</div>
+
+        <!-- 3. คะแนนเฉลี่ยรวมด้านล่าง -->
+        <div id="avgScoreText" class="overlay-text">🌟 คะแนนรวมเฉลี่ย: - / 10 🌟</div>
+
+        <!-- กล่องสำหรับรวบรวมอีโมจิร่วง -->
+        <div id="emoji-container"></div>
+
+    </div>
+
+    <!-- เชื่อมโยงไฟล์ JavaScript แบบ Module -->
+    <script type="module" src="Dashboard.js"></script>
+</body>
+</html>

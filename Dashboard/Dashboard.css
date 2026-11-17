@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Tahoma, "Noto Sans Thai", Arial, sans-serif;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1b120c; /* สีพื้นหลังขอบนอก */
+    overflow: hidden;
+}
+
+/* 1. กล่องหลักอิงตาม Homepage */
+#game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    max-width: calc(100vh * (16 / 9));
+    max-height: calc(100vw * (9 / 16));
+    aspect-ratio: 16 / 9;
+
+    /* ใส่รูปภาพฉากหลัง Dashboard */
+    background-image: url('Dashboard.png'); 
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* =====================================================
+   HOME BUTTON (ปุ่มรูปบ้าน)
+===================================================== */
+#homeButton {
+    position: absolute;
+    right: 1.9%;            /* ปรับตามสัดส่วนเปอร์เซ็นต์ */
+    top: 3.5%;              
+    width: 6.5%;            
+    height: 9.5%;           
+    
+    background: transparent; /* โปร่งใส (ถ้าอยากเช็กตำแหน่งให้เปลี่ยนเป็น rgba(255,0,0,0.4)) */
+    border: none;
+    cursor: pointer;
+    
+    z-index: 9999;          
+    pointer-events: auto;   
+    outline: none;
+}
+
+/* ตั้งค่าพื้นฐานสำหรับข้อความทับซ้อน */
+.overlay-text {
+    position: absolute;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 1. ตำแหน่งชื่อผู้เล่น */
+#playerNameText {
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(18px, 2.2vw, 32px);
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+}
+
+/* 2. ตำแหน่งคะแนนในตาราง */
+.score-box {
+    left: 61%;
+    font-size: clamp(16px, 1.8vw, 26px);
+    color: #5c3a21;
+    width: 120px;
+}
+
+#score1 { top: 45%; }
+#score2 { top: 54%; }
+#score3 { top: 64%; }
+#score4 { top: 73%; }
+
+/* 3. คะแนนเฉลี่ยรวมด้านล่าง */
+#avgScoreText {
+    top: 83%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(20px, 2.5vw, 36px);
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+}
+
+/* =====================================================
+   CSS สำหรับเอฟเฟกต์อีโมจิร่วง (ตกแป๊บเดียวแล้วหยุด)
+===================================================== */
+.falling-emoji {
+    position: fixed;
+    top: -50px;
+    font-size: 30px;
+    user-select: none;
+    z-index: 9999;
+    animation: fall linear forwards;
+    pointer-events: none; /* ป้องกันไม่ให้อีโมจิขวางการคลิกปุ่ม Home */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+    }
+}
